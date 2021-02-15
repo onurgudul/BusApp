@@ -1,0 +1,185 @@
+﻿@using TepeBusApp.Entities.DatabaseTable
+@using TepeBusApp.Entities.ViewModels
+@model TicketViewModel
+
+
+<style>
+    .seat-select .btn {
+        width: 50px;
+        margin: 10px 0;
+        height: 50px;
+    }
+</style>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row  seat-select">
+
+                @{string[] aryKoltuk = new string[20];
+
+                    for (int i = 0; i < Model.Seats.Count(); i++)
+                    {
+                        aryKoltuk[i] = Model.Seats[i].Seats;
+                    }
+                }
+
+
+
+                @for (int i = 1; i < 21; i++)
+                {
+
+
+                    if (aryKoltuk.Contains(i.ToString()))
+                    {
+                        <div class="col-1">
+                            <button type="button" class="btn btn-danger" disabled>@i</button>
+                        </div>
+                        continue;
+                    }
+
+                    else
+                    {
+                        <div class="col-1">
+                            <button type="button" class="btn btn-primary" data-edit-mode="false" id="a_@i" data-seat-id="@i" onclick="doSeat(this,'edit',@i)">@i</button>
+                        </div>
+                        continue;
+                    }
+
+                }
+            </div>
+            <div class="row mt-3">
+
+                @foreach (var item in Model.Travels)
+                {
+
+                    <div class="col-md-6">
+
+
+                        <p><span style="font-weight:700;">Nereden:</span> @Html.DisplayFor(modelItem => item.From)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><span style="font-weight:700;">Nereye:</span> @Html.DisplayFor(modelitem => item.To) </p>
+                    </div>
+
+
+
+                }
+                <div class="col-md-12">
+                    <p>
+                        <span style="font-weight:700;">Yolcu:</span>
+                        @foreach (var item in Model.Users)
+                        {
+                            @Html.DisplayFor(modelimte => item.Name)
+                        }
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <p>
+                        <span style="font-weight:700;">Fiyat:</span>
+                        @foreach (var item in Model.Travels)
+                        {
+                            @Html.DisplayFor(modelitem=>item.StartPrice)
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<table>-->
+@*<tr>
+
+        <td>
+
+
+            @{string[] aryKoltuk = new string[20];
+
+                for (int i = 0; i < Model.Seats.Count(); i++)
+                {
+                    aryKoltuk[i] = Model.Seats[i].Seats;
+                }
+            }
+
+
+
+            @for (int i = 1; i < 21; i++)
+            {
+
+                if (aryKoltuk.Contains(i.ToString()))
+                {
+                    <button type="button" class="btn btn-danger" disabled>@i</button>
+                    continue;
+                }
+
+                else
+                {
+                    <button type="button" class="btn btn-primary" data-edit-mode="false" id="a_@i" data-seat-id="@i" onclick="doSeat(this,'edit',@i)">@i</button>
+                    continue;
+                }
+            }
+
+        </td>
+    </tr>*@
+<!--<tr>
+    </tr>
+
+    <tr>
+        @foreach (var item in Model.Travels)
+        {
+
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.To)
+            </td>
+
+        }
+        @foreach (var item in Model.Users)
+        {
+            <td>
+                @Html.DisplayFor(modelimte => item.Name)
+            </td>
+        }
+    </tr>
+
+</table>-->
+@*<table>
+        <tr>
+
+            <td>
+
+
+                @{string[] aryKoltuk = new string[20];
+
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        aryKoltuk[i] = Model[i].Seats;
+                    }
+                }
+
+
+
+                @for (int i = 1; i < 21; i++)
+                {
+
+                    if (aryKoltuk.Contains(i.ToString()))
+                    {
+                        <button type="button" class="btn btn-danger" disabled>@i</button>
+                        continue;
+                    }
+
+                    else
+                    {
+                        <button type="button" class="btn btn-primary" data-edit-mode="false" onclick="doSeat(this,'edit',@i)">@i</button>
+                        continue;
+                    }
+                }
+
+            </td>
+
+        </tr>
+    </table>*@

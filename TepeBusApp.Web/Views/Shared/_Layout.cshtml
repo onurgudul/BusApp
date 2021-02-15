@@ -1,0 +1,123 @@
+﻿@using TepeBusApp.Web.Models
+@using TepeBusApp.Web
+@using TepeBusApp.Entities.DatabaseTable
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TepeBusApp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="~/Content/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+    <link href="~/Content/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+
+
+
+    <!-- Custom styles for this template -->
+    <link href="~/Content/css/landing-page.min.css" rel="stylesheet" />
+
+    <style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .bosDiv {
+            height: 15px;
+        }
+
+        .btnKoltuk {
+            margin: 4px;
+        }
+
+        .koltukDiv {
+            height: auto;
+        }
+
+        .dropdown-menu {
+            position: absolute !important;
+            padding: 15px 15px !important;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <style>
+
+        @@media(min-width:400px) {
+            .navbar-landing .btn-signin {
+                margin-left: auto;
+                margin-right: 15px;
+            }
+        }
+
+        @@media (max-width:400px) {
+            .navbar-landing .btn-sm-signup {
+                margin-left: auto;
+                padding: .375rem 15px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-light navbar-landing bg-light static-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tepe Bus</a>
+            @if (SessionManager.User == null)
+            {
+                <a class="btn btn-primary btn-signin" href="/Auth/Login">Giriş Yap</a>
+                <a class="btn btn-primary btn-sm-signup" href="/Auth/Register">Kayıt Ol</a>
+
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon-user"></span> @SessionManager.User.Email
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Profili Göster</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">Profili Düzenle</a>
+                            </li>
+                            <li>
+                                <a href="/Auth/Logout">Çıkış Yap</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            }
+        </div>
+    </nav>
+
+
+    @RenderBody()
+    @RenderSection("footer", required: false)
+
+
+
+
+
+
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+﻿@using TepeBusApp.Entities.DatabaseTable
+@model IEnumerable<TepeBusApp.Entities.DatabaseTable.Travel>
+
+@{
+    ViewBag.Title = "TravelChoose";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    @@media(min-width:768px){
+        .custom-row{margin-top:70px;}
+    }
+</style>
+<div class="container">
+    <div class="row custom-row">
+        <div class="col-12">
+            <h2>Seyahat Seçimi</h2>
+        </div>
+        <div class="col-12">
+
+            <table class="table table-hove mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShipNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.From)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.To)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Time)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model=>model.StartPrice)
+                        </th>
+                        <th>
+                            Koltuk Seç
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShipNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.From)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.To)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelitem => item.StartPrice)
+                            TL
+                        </td>
+                        <td>
+                            <div class="ratings">
+                                <p class="pull-right">
+                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" data-travel-id=@item.Id>
+                                        <span class="icon-star"></span> Koltuk Seç
+                                    </button>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Koltuk Seçimi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="buttonId" onclick="window.location.reload();">Bileti Al</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/vendor/jquery/jquery.min.js"></script>
+<script>
+    var selected;
+    var travel;
+    $(function () {
+        $('#exampleModal').on('show.bs.modal', function (e) {
+
+            //console.log("test");
+            var btn = $(e.relatedTarget);
+            var travelid = btn.data("travel-id");
+            travel = travelid;
+
+
+            $("#modal-body").load("/Ticket/ShowSeat/" + travelid);
+
+        })
+    });
+    function doSeat(btn, mode, i) {
+        var button = $(btn);
+        var modes = button.data("edit-mode");
+        if (mode === "edit") {
+            if (!modes) {
+                button.data("edit-mode", true);
+                button.removeClass("btn-primary");
+                button.addClass("btn-success");
+                selected = i;
+
+
+            }
+            else {
+                button.data("edit-mode", false);
+                button.removeClass("btn-success");
+                button.addClass("btn-primary");
+            }
+        }
+    }
+    $('#buttonId').click(function () {
+        console.log({ selected, travel });
+
+        var JSONObject = {
+            Property1: selected,
+            Property2: travel
+        };
+        $.ajax({ 
+            type: 'POST',
+            url: "/Ticket/Take/",
+            data: JSON.stringify(JSONObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    });
+
+    //function ticket(travelid, seatid) {
+    //    var txt = $(.text());
+
+    //    $.ajax({
+    //        method: "POST",
+    //        url: "/Ticket/Take/" + travelid,
+    //        data: { text=txt }
+    //    }).done(function (data) {
+    //        if (data.result) {
+
+    //        }
+    //        else {
+    //            alert("Bilet alınamadı");
+    //        }
+    //    }).fail(function () {
+    //        alert("Sunucu ile bağlantı kurulamadı");
+    //    });
+    //}
+</script>

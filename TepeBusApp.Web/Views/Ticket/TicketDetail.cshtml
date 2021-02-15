@@ -1,0 +1,73 @@
+﻿@model TepeBusApp.Entities.ViewModels.TicketViewModel
+
+@{
+    ViewBag.Title = "TicketDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bilet Detayları</h2>
+
+
+<table class="table">
+    <tr>
+        <th>Sefer Numarası</th>
+        <th>Fiyat</th>
+        <th>Bileti Alan Kişi</th>
+        <th>Koltuk Seçimi</th>
+        <th><button id="button1" onclick="koltukGetir()">Koltuk Seç</button></th>
+    </tr>
+    <tr>
+        @foreach (var item in Model.Travels)
+        {
+
+            <td>@item.ShipNumber</td>
+            @*<td>@item.Price TL</td>*@
+
+        }
+        @foreach (var item in Model.Users)
+        {
+
+
+            <td>@item.Name</td>
+            <td>
+                @Html.DropDownListFor(model => model.Travels, Enumerable.Range(1, 20).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+            </td>
+
+        }
+        
+        @foreach (var item in Model.Seats)
+        {
+            <td id="seat">@item.Seats</td>
+
+        }
+     
+    </tr>
+
+</table>
+@*<div id="koltuklar" class="koltukDiv">
+
+</div>
+
+<script>
+
+    function koltukGetir() {
+        var seatsArray ="<% =Model.Seats %>";
+        var dv = document.querySelector("#koltuklar");
+        var dvBos = document.createElement("div");
+        dvBos.classList = "bosDiv";
+        for (var i = 1; i <= 10; i++) {
+            var btn = document.createElement("button");
+            btn.classList = "btnKoltuk";
+            btn.innerHTML = i;
+            dv.appendChild(btn);
+        }
+        dv.appendChild(dvBos);
+        for (var j = 11; j <= 20; j++) {
+            var btn = document.createElement("button");
+            btn.classList = "btnKoltuk";
+            btn.innerHTML = j;
+            dv.appendChild(btn);
+        }
+    }
+
+</script>*@
